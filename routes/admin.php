@@ -6,15 +6,13 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\PageController;
-use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\SeoPageController;
 use App\Http\Controllers\Admin\PageMetaController;
 use App\Http\Controllers\Admin\SeoScriptController;
-use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\ProjectController;
 
 Route::group(['prefix' => 'admin'], function () {
 
@@ -71,6 +69,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/teams/{id}/edit', [TeamController::class, 'edit'])->name('admin.teams.edit');
         Route::put('/teams/{id}/update', [TeamController::class, 'update'])->name('admin.teams.update');
         Route::delete('/teams/{id}/delete', [TeamController::class, 'destroy'])->name('admin.teams.destroy');
+
+        Route::get('/projects', [ProjectController::class, 'index'])->name('admin.project.index');
+        Route::get('/project/create', [ProjectController::class, 'create'])->name('admin.project.create');
+        Route::post('/project/store', [ProjectController::class, 'store'])->name('admin.project.store');
+        Route::get('/project/{id}/edit', [ProjectController::class, 'edit'])->name('admin.project.edit');
+        Route::put('/project/{id}/update', [ProjectController::class, 'update'])->name('admin.project.update');
+        Route::delete('/project/{id}/delete', [ProjectController::class, 'destroy'])->name('admin.project.destroy');
 
         Route::get('/seo-scripts/{id}/edit', [SeoScriptController::class, 'edit'])->name('admin.seo-scripts.edit');
         Route::put('/seo-scripts/{id}/update', [SeoScriptController::class, 'update'])->name('admin.seo-scripts.update');

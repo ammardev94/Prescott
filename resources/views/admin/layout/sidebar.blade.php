@@ -48,6 +48,12 @@
                             </a>
                         </li>
 
+                        <li class="@if(request()->path() == 'admin/projects') active @endif">
+                            <a href="{{ route('admin.project.index') }}">
+                                <i class="ti ti-users-group"></i>
+                                <span>Projects</span>
+                            </a>
+                        </li>
 
                         <li class="@if(request()->path() == 'admin/seo-scripts/1/edit') active @endif">
                             <a href="{{ route('admin.seo-scripts.edit', [1]) }}">
