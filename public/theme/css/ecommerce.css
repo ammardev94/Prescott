@@ -1,0 +1,110 @@
+.widget-woof .widgettitle {
+  display: none;
+}
+.woof_container_inner_showallcategories h4{
+    margin-bottom: 25px;
+    color: var(--main-color);
+    cursor: pointer;
+}
+.woof_container_showallcategories {
+  border: 1px solid var(--main-color);
+  padding-bottom: 40px;
+  padding-top: 30px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-bottom: 20px;
+}
+.woof_container_inner_showallcategories li {
+  position: relative;
+}
+.woof_container_inner_showallcategories li label {
+  font-size: 13px;
+  padding: 0;
+  margin: 0!important;
+}
+.woof_container_inner_showallcategories .woof_list_checkbox {
+  gap: 19px;
+  max-height: 109px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.woof_container_inner_showallcategories li .checked ~ .woof_checkbox_label, .woof_container_inner_showallcategories li:hover {
+  transition: .3s;
+  color: var(--main-color);
+}
+.woof_container_inner_showallcategories li > div, .woof_container_inner_showallcategories li > div [type="checkbox"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  margin-top: 0;
+}
+.woof_container_inner_showallcategories li .woof_checkbox_count {
+  color: #7E7E7E;
+}
+
+/* Scrollbar style*/
+
+.woof_container_inner_showallcategories .woof_list_checkbox::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+.woof_container_inner_showallcategories .woof_list_checkbox::-webkit-scrollbar-track {
+  background: rgb(124 72 71 / 38%);
+  border-radius: 30px;
+}
+
+/* Handle */
+.woof_container_inner_showallcategories .woof_list_checkbox::-webkit-scrollbar-thumb {
+  background: var(--main-color);
+  border-radius: 30px;
+}
+
+/* Handle on hover */
+.woof_container_inner_showallcategories .woof_list_checkbox::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* End Scrollbar style */
+
+
+.woof_price_filter h4 {
+  font-size: 14px;
+  margin-bottom: 10px;
+
+}
+.woof_price_filter .irs--round .irs-handle {
+  border-color: var(--main-color)!important;
+  background: var(--main-color)!important;
+  top: 28px;
+  width: 18px;
+  height: 18px;
+}
+.woof_price_filter .irs--round .irs-bar {
+  background: var(--main-color)
+}
+.woof_price_filter .irs--round .irs-line {
+  background: #C8A69A;
+  border-radius: 0;
+}
+.woof_price_filter .irs--round .irs-min,.woof_price_filter .irs--round .irs-max,.woof_price_filter .irs--round .irs-grid {
+  display: none;
+}
+.woof_price_filter .irs-from, .woof_price_filter .irs-to, .irs-single {
+  top: 60px;
+  background-color: transparent!important;
+  color: #373738!important;
+  font-size: 11px!important;
+  padding: 0 5px!important;
+}
+.woof_price_filter .irs--round .irs-from:before,.woof_price_filter .irs--round .irs-to:before,.woof_price_filter .irs--round .irs-single:before {
+  content: none;
+}
+.woof_price_filter .irs-with-grid  {
+  margin-top: -20px;
+}
