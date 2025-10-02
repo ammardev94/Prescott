@@ -25,21 +25,37 @@ class NewsRequest extends FormRequest
         $isUpdate = in_array($this->method(), ['PUT', 'PATCH']);
 
         return [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'type' => 'nullable|in:events,launches',
+            'is_featured' => 'nullable|boolean',
+
             'img' => $isUpdate
                 ? ['nullable', new ValidImageOrName]
                 : 'required|image|mimes:jpeg,png,jpg,gif|max:10240',
 
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'author_name' => 'nullable|string|max:255',
-
-            'author_img' => $isUpdate
+            'paragraph_one_title' => 'nullable|string|max:255',
+            'paragraph_one_description' => 'nullable|string',
+            'paragraph_one_img' => $isUpdate
                 ? ['nullable', new ValidImageOrName]
                 : 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
 
-            'author_youtube' => 'nullable|url|max:255',
-            'author_facebook' => 'nullable|url|max:255',
-            'author_linkdin' => 'nullable|url|max:255',
+            'paragraph_two_title' => 'nullable|string|max:255',
+            'paragraph_two_description' => 'nullable|string',
+            'paragraph_two_img' => $isUpdate
+                ? ['nullable', new ValidImageOrName]
+                : 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+
+            'paragraph_three_title' => 'nullable|string|max:255',
+            'paragraph_three_description' => 'nullable|string',
+            'paragraph_three_img' => $isUpdate
+                ? ['nullable', new ValidImageOrName]
+                : 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+
+            'youtube_url' => 'nullable|url|max:255',
+            'twitter_url' => 'nullable|url|max:255',
+            'facebook_url' => 'nullable|url|max:255',
+            'linkdin_url' => 'nullable|url|max:255',
         ];
     }
 
@@ -49,11 +65,14 @@ class NewsRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'img' => 'news image',
-            'author_img' => 'author image',
-            'author_youtube' => 'author YouTube link',
-            'author_facebook' => 'author Facebook link',
-            'author_linkdin' => 'author LinkedIn link',
+            'img' => 'main news image',
+            'paragraph_one_img' => 'paragraph one image',
+            'paragraph_two_img' => 'paragraph two image',
+            'paragraph_three_img' => 'paragraph three image',
+            'youtube_url' => 'YouTube link',
+            'twitter_url' => 'Twitter link',
+            'facebook_url' => 'Facebook link',
+            'linkdin_url' => 'LinkedIn link',
         ];
     }
 }

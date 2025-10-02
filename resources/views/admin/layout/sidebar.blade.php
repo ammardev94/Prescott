@@ -34,6 +34,13 @@
                             </a>
                         </li>
 
+                        <li class="@if(request()->path() == 'admin/news') active @endif">
+                            <a href="{{ route('admin.news.index') }}">
+                                <i class="ti ti-users-group"></i>
+                                <span>News</span>
+                            </a>
+                        </li>
+
                         <li class="@if(request()->path() == 'admin/teams') active @endif">
                             <a href="{{ route('admin.teams.index') }}">
                                 <i class="ti ti-users-group"></i>

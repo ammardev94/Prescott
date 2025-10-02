@@ -58,6 +58,13 @@ Route::group(['prefix' => 'admin'], function () {
             Route::delete('/page-metas/{id}/delete', [PageMetaController::class, 'destroy'])->name('cms.page_meta.destroy');
         });
 
+        Route::get('/news', [NewsController::class, 'index'])->name('admin.news.index');
+        Route::get('/news/create', [NewsController::class, 'create'])->name('admin.news.create');
+        Route::post('/news/store', [NewsController::class, 'store'])->name('admin.news.store');
+        Route::get('/news/{id}/edit', [NewsController::class, 'edit'])->name('admin.news.edit');
+        Route::put('/news/{id}/update', [NewsController::class, 'update'])->name('admin.news.update');
+        Route::delete('/news/{id}/delete', [NewsController::class, 'destroy'])->name('admin.news.destroy');
+
         Route::get('/teams', [TeamController::class, 'index'])->name('admin.teams.index');
         Route::get('/teams/create', [TeamController::class, 'create'])->name('admin.teams.create');
         Route::post('/teams/store', [TeamController::class, 'store'])->name('admin.teams.store');
