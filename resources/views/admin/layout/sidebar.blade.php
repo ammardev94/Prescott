@@ -48,20 +48,21 @@
                             </a>
                         </li>
 
+
                         <li class="submenu">
-                            <a href="javascript:void(0);" class="subdrop active">
+                            <a href="javascript:void(0);" class="subdrop {{ request()->routeIs('admin.project.*') || request()->routeIs('admin.amenity.*') ? 'active' : '' }}">
                                 <i class="ti ti-book-2"></i>
                                 <span>Projects</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li>
+                                <li class="{{ request()->routeIs('admin.project.*') ? 'active' : '' }}">
                                     <a href="{{ route('admin.project.index') }}">
                                         <i class="ti ti-building-skyscraper"></i>
                                         <span>Projects</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li class="{{ request()->routeIs('admin.amenity.*') ? 'active' : '' }}">
                                     <a href="{{ route('admin.amenity.index') }}">
                                         <i class="ti ti-building-skyscraper"></i>
                                         <span>Project Amenities</span>
