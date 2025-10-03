@@ -48,12 +48,28 @@
                             </a>
                         </li>
 
-                        <li class="@if(request()->path() == 'admin/projects') active @endif">
-                            <a href="{{ route('admin.project.index') }}">
-                                <i class="ti ti-users-group"></i>
+                        <li class="submenu">
+                            <a href="javascript:void(0);" class="subdrop active">
+                                <i class="ti ti-book-2"></i>
                                 <span>Projects</span>
+                                <span class="menu-arrow"></span>
                             </a>
+                            <ul>
+                                <li>
+                                    <a href="{{ route('admin.project.index') }}">
+                                        <i class="ti ti-building-skyscraper"></i>
+                                        <span>Projects</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.amenity.index') }}">
+                                        <i class="ti ti-building-skyscraper"></i>
+                                        <span>Project Amenities</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
 
                         <li class="@if(request()->path() == 'admin/seo-scripts/1/edit') active @endif">
                             <a href="{{ route('admin.seo-scripts.edit', [1]) }}">

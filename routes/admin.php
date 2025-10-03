@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AmenityController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\TeamController;
@@ -76,6 +77,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/project/{id}/edit', [ProjectController::class, 'edit'])->name('admin.project.edit');
         Route::put('/project/{id}/update', [ProjectController::class, 'update'])->name('admin.project.update');
         Route::delete('/project/{id}/delete', [ProjectController::class, 'destroy'])->name('admin.project.destroy');
+
+        Route::get('/amenities', [AmenityController::class, 'index'])->name('admin.amenity.index');
+        Route::get('/amenity/create', [AmenityController::class, 'create'])->name('admin.amenity.create');
+        Route::post('/amenity/store', [AmenityController::class, 'store'])->name('admin.amenity.store');
+        Route::get('/amenity/{id}/edit', [AmenityController::class, 'edit'])->name('admin.amenity.edit');
+        Route::put('/amenity/{id}/update', [AmenityController::class, 'update'])->name('admin.amenity.update');
+        Route::delete('/amenity/{id}/delete', [AmenityController::class, 'destroy'])->name('admin.amenity.destroy');
 
         Route::get('/seo-scripts/{id}/edit', [SeoScriptController::class, 'edit'])->name('admin.seo-scripts.edit');
         Route::put('/seo-scripts/{id}/update', [SeoScriptController::class, 'update'])->name('admin.seo-scripts.update');
