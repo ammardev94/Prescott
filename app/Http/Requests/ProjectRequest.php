@@ -22,10 +22,10 @@ class ProjectRequest extends FormRequest
 
             'title' => 'required|string|max:255',
             'location' => 'nullable|string|max:255',
-            'status' => 'required|string|in:completed,ongoing',
+            'status' => 'required|string|in:completed,in-progress',
 
             'video_thumbnail_img' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:40480',
-            'video' => 'nullable|url|max:255',
+            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime|max:102400',
 
             'overview' => 'nullable|string',
 

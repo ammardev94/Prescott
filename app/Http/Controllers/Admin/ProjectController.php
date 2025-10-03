@@ -31,28 +31,73 @@ class ProjectController extends Controller
             $validated = $request->validated();
 
             if ($request->hasFile('thumbnail_img')) {
-                $validated['thumbnail_img'] = $request->file('thumbnail_img')->store('project/thumbnails', 'public');
+                $validated['thumbnail_img'] = $request->file('thumbnail_img')->store('projects/thumbnails', 'public');
             }
 
-            if ($request->hasFile('section_one_button_file')) {
-                $validated['section_one_button_file'] = $request->file('section_one_button_file')->store('project/sheets', 'public');
+            if ($request->hasFile('video_thumbnail_img')) {
+                $validated['video_thumbnail_img'] = $request->file('video_thumbnail_img')->store('projects/video_thumbnails', 'public');
             }
 
-            if ($request->hasFile('images')) {
-                $validated['images'] = collect($request->file('images'))
-                    ->map(fn($file) => $file->store('project/images', 'public'))
-                    ->toArray();
+            if ($request->hasFile('reception_img')) {
+                $validated['reception_img'] = $request->file('reception_img')->store('projects/reception', 'public');
+            }
+
+            if ($request->hasFile('exterior_img')) {
+                $validated['exterior_img'] = $request->file('exterior_img')->store('projects/exterior', 'public');
+            }
+
+            if ($request->hasFile('interior_img')) {
+                $validated['interior_img'] = $request->file('interior_img')->store('projects/interior', 'public');
+            }
+
+            if ($request->hasFile('section_one_img')) {
+                $validated['section_one_img'] = $request->file('section_one_img')->store('projects/section_one', 'public');
+            }
+
+            if ($request->hasFile('section_two_img')) {
+                $validated['section_two_img'] = $request->file('section_two_img')->store('projects/section_two', 'public');
+            }
+
+            if ($request->hasFile('trademark_interior_img')) {
+                $validated['trademark_interior_img'] = $request->file('trademark_interior_img')->store('projects/trademark_interior', 'public');
+            }
+
+            if ($request->hasFile('section_three_img')) {
+                $validated['section_three_img'] = $request->file('section_three_img')->store('projects/section_three', 'public');
+            }
+
+            if ($request->hasFile('construction_update_img')) {
+                $validated['construction_update_img'] = $request->file('construction_update_img')->store('projects/construction_update', 'public');
+            }
+
+            if ($request->hasFile('brochure')) {
+                $validated['brochure'] = $request->file('brochure')->store('projects/brochures', 'public');
+            }
+
+            if ($request->hasFile('amenities_brochure')) {
+                $validated['amenities_brochure'] = $request->file('amenities_brochure')->store('projects/amenities_brochures', 'public');
+            }
+
+            if ($request->hasFile('trademark_interior_brochure')) {
+                $validated['trademark_interior_brochure'] = $request->file('trademark_interior_brochure')->store('projects/trademark_brochures', 'public');
+            }
+
+            if ($request->hasFile('construction_plan')) {
+                $validated['construction_plan'] = $request->file('construction_plan')->store('projects/construction_plans', 'public');
+            }
+
+            if ($request->hasFile('video')) {
+                $validated['video'] = $request->file('video')->store('projects/videos', 'public');
             }
 
             Project::create($validated);
 
-            Session::flash('msg.success', 'project created successfully.');
+            Session::flash('msg.success', 'Project created successfully.');
             return redirect()->route('admin.project.index');
 
         } catch (Exception $e) {
-
-            Log::error($e->getMessage());
-            Session::flash('msg.error', $e->getMessage());
+            Log::error('Project Store Error: '.$e->getMessage());
+            Session::flash('msg.error', 'Something went wrong: '.$e->getMessage());
             return redirect()->back()->withInput();
         }
     }
@@ -63,66 +108,108 @@ class ProjectController extends Controller
         return view('admin.project.edit', compact('project'));
     }
 
-    public function update(int $id, ProjectRequest $request): RedirectResponse
+    public function update(ProjectRequest $request, Project $project): RedirectResponse
     {
         try {
-            $project = Project::findOrFail($id);
             $validated = $request->validated();
 
-            if ($request->hasFile('thumbnail_img')) {
-                Storage::disk('public')->delete($project->thumbnail_img);
-                $validated['thumbnail_img'] = $request->file('thumbnail_img')->store('project/thumbnails', 'public');
-            }
+            $imageFields = [
+                'thumbnail_img' => 'projects/thumbnails',
+                'video_thumbnail_img' => 'projects/video_thumbnails',
+                'reception_img' => 'projects/reception',
+                'exterior_img' => 'projects/exterior',
+                'interior_img' => 'projects/interior',
+                'section_one_img' => 'projects/section_one',
+                'section_two_img' => 'projects/section_two',
+                'section_three_img' => 'projects/section_three',
+                'trademark_interior_img' => 'projects/trademark_interior',
+                'construction_update_img' => 'projects/construction_update',
+            ];
 
-            if ($request->hasFile('section_one_button_file')) {
-                Storage::disk('public')->delete($project->section_one_button_file);
-                $validated['section_one_button_file'] = $request->file('section_one_button_file')->store('project/sheets', 'public');
-            }
-
-
-            if ($request->hasFile('images')) {
-                if (is_array($project->images)) {
-                    foreach ($project->images as $img) {
-                        Storage::disk('public')->delete($img);
+            foreach ($imageFields as $field => $path) {
+                if ($request->hasFile($field)) {
+                    if ($project->$field && Storage::disk('public')->exists($project->$field)) {
+                        Storage::disk('public')->delete($project->$field);
                     }
+                    $validated[$field] = $request->file($field)->store($path, 'public');
                 }
-                $validated['images'] = collect($request->file('images'))
-                    ->map(fn($file) => $file->store('project/images', 'public'))
-                    ->toArray();
+            }
+
+            $pdfFields = [
+                'brochure' => 'projects/brochures',
+                'amenities_brochure' => 'projects/amenities_brochures',
+                'trademark_interior_brochure' => 'projects/trademark_brochures',
+                'construction_plan' => 'projects/construction_plans',
+            ];
+
+            foreach ($pdfFields as $field => $path) {
+                if ($request->hasFile($field)) {
+                    if ($project->$field && Storage::disk('public')->exists($project->$field)) {
+                        Storage::disk('public')->delete($project->$field);
+                    }
+                    $validated[$field] = $request->file($field)->store($path, 'public');
+                }
+            }
+
+            if ($request->hasFile('video')) {
+                if ($project->video && Storage::disk('public')->exists($project->video)) {
+                    Storage::disk('public')->delete($project->video);
+                }
+                $validated['video'] = $request->file('video')->store('projects/videos', 'public');
             }
 
             $project->update($validated);
 
-            Session::flash('msg.success', 'project updated successfully.');
+            Session::flash('msg.success', 'Project updated successfully.');
             return redirect()->route('admin.project.index');
 
         } catch (Exception $e) {
-            Session::flash('msg.error', $e->getMessage());
+            Log::error('Project Update Error: '.$e->getMessage());
+            Session::flash('msg.error', 'Something went wrong: '.$e->getMessage());
             return redirect()->back()->withInput();
         }
     }
 
     public function destroy(int $id): RedirectResponse
     {
-        $project = Project::findOrFail($id);
+        try {
 
-        if ($project->thumbnail_img) {
-            Storage::disk('public')->delete($project->thumbnail_img);
-        }
+            $project = Project::findOrFail($id);
 
-        if ($project->section_one_button_file) {
-            Storage::disk('public')->delete($project->section_one_button_file);
-        }
+            $fileFields = [
+                'thumbnail_img',
+                'video_thumbnail_img',
+                'reception_img',
+                'exterior_img',
+                'interior_img',
+                'section_one_img',
+                'section_two_img',
+                'trademark_interior_img',
+                'section_three_img',
+                'construction_update_img',
+                'brochure',
+                'amenities_brochure',
+                'trademark_interior_brochure',
+                'construction_plan',
+                'video',
+            ];
 
-        if (is_array($project->images)) {
-            foreach ($project->images as $img) {
-                Storage::disk('public')->delete($img);
+            foreach ($fileFields as $field) {
+                if (!empty($project->$field) && Storage::disk('public')->exists($project->$field)) {
+                    Storage::disk('public')->delete($project->$field);
+                }
             }
+
+            $project->delete();
+
+            Session::flash('msg.success', 'Project deleted successfully.');
+            return redirect()->route('admin.project.index');
+
+        } catch (Exception $e) {
+            Log::error('Project Delete Error: '.$e->getMessage());
+            Session::flash('msg.error', 'Something went wrong: '.$e->getMessage());
+            return redirect()->back();
         }
-
-        $project->delete();
-
-        Session::flash('msg.success', 'project deleted successfully.');
-        return redirect()->route('admin.project.index');
     }
+
 }

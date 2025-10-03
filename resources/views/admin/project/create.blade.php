@@ -144,11 +144,6 @@
                             <input type="file" name="amenities_brochure" id="amenities_brochure" class="form-control">
                         </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label for="trademark_interior_brochure" class="form-label">Trademark Interior Brochure</label>
-                            <input type="file" name="trademark_interior_brochure" id="trademark_interior_brochure" class="form-control">
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -378,29 +373,26 @@ $(document).ready(function() {
             title: { required: true, minlength: 3 },
             status: { required: true },
 
-            // Image extension checks
+            video: { required: true, extension: ['mp4', 'avi', 'mpeg', 'quicktime'] },
+
             thumbnail_img: { required: true, extension: ['jpg', 'jpeg', 'png', 'webp'] },
             video_thumbnail_img: { extension: ['jpg', 'jpeg', 'png', 'webp'] },
             trademark_interior_img: { extension: ['jpg', 'jpeg', 'png', 'webp'] },
             construction_update_img: { extension: ['jpg', 'jpeg', 'png', 'webp'] },
 
-            // Brochures / plans
             brochure: { extension: ['pdf'] },
+            amenities_brochure: { extension: ['pdf'] },
             trademark_interior_brochure: { extension: ['pdf'] },
             construction_plan: { extension: ['pdf'] },
 
-            // Map validators
             location_map_url: { googleMapUrl: true },
             map_iframe: { googleMapEmbed: true },
 
-            // Optional length checks
             total_area: { maxlength: 255 },
             open_space: { maxlength: 255 },
 
             "near_by_entertainment": { requireOneRow: "entertainment" },
-            // Validation for schools
             "near_by_schools": { requireOneRow: "schools" },
-            // Validation for clinics
             "near_by_clinics": { requireOneRow: "clinics" }
         },
         messages: {
@@ -440,7 +432,6 @@ $(document).ready(function() {
             $(element).removeClass(errorClass).addClass(validClass);
         },
         submitHandler: function(form) {
-            // copy Summernote content into textareas before submit
             $('.summernote').each(function(){
                 var $el = $(this);
                 $el.val($el.summernote('code'));
@@ -461,23 +452,55 @@ $(document).ready(function() {
         }
     });
 
-    // Generic image preview for other image inputs
     $('input[type="file"]').on('change', function() {
         var input = $(this);
         var file = input[0].files[0];
+
         if (file) {
+            var fileType = file.type;
+
             var reader = new FileReader();
             reader.onload = function(e) {
-                var img = input.siblings('img').first();
-                if (img.length === 0) {
-                    img = $('<img>').css({'max-width':'100%','height':'200px','display':'block','margin-top':'8px'});
+
+                input.siblings('img, embed, video').remove();
+
+                if (fileType.startsWith('image/')) {
+                    var img = $('<img>').css({
+                        'max-width': '100%',
+                        'height': '200px',
+                        'display': 'block',
+                        'margin-top': '8px'
+                    });
                     input.after(img);
+                    img.attr('src', e.target.result).show();
                 }
-                img.attr('src', e.target.result).show();
+                else if (fileType === 'application/pdf') {
+                    var pdf = $('<embed>').attr({
+                        type: 'application/pdf',
+                        width: '100%',
+                        height: '400px'
+                    }).css({
+                        'display': 'block',
+                        'margin-top': '8px'
+                    });
+                    input.after(pdf);
+                    pdf.attr('src', e.target.result).show();
+                }
+                else if (fileType.startsWith('video/')) {
+                    var video = $('<video controls>').css({
+                        'max-width': '100%',
+                        'height': '300px',
+                        'display': 'block',
+                        'margin-top': '8px'
+                    });
+                    input.after(video);
+                    video.attr('src', e.target.result).show();
+                }
             };
             reader.readAsDataURL(file);
         }
     });
+
 });
 </script>
 
@@ -505,8 +528,5 @@ function addKeyValue(section) {
     container.appendChild(row);
 }
 </script>
-
-
-
 @endsection
 
