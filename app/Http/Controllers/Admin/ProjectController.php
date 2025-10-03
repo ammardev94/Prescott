@@ -112,7 +112,7 @@ class ProjectController extends Controller
     {
         try {
             $project = Project::findOrFail($id);
-            
+
             $validated = $request->validated();
 
             $imageFields = [
@@ -159,6 +159,10 @@ class ProjectController extends Controller
                 }
                 $validated['video'] = $request->file('video')->store('projects/videos', 'public');
             }
+
+            $validated['near_by_entertainment'] = $request->input('near_by_entertainment', []);
+            $validated['near_by_schools'] = $request->input('near_by_schools', []);
+            $validated['near_by_clinics'] = $request->input('near_by_clinics', []);
 
             $project->update($validated);
 
