@@ -74,7 +74,7 @@
                         <div class="col-md-6 mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" name="status" id="status">
-                                <option value="in-progress" {{ old('status', $project->status) == 'in-progress' ? 'selected' : '' }}>In Progress</option>
+                                <option value="ongoing" {{ old('status', $project->status) == 'ongoing' ? 'selected' : '' }}>Ongoing</option>
                                 <option value="completed" {{ old('status', $project->status) == 'completed' ? 'selected' : '' }}>Completed</option>
                             </select>
                         </div>

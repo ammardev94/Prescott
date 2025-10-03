@@ -72,7 +72,7 @@
                         <div class="col-md-6 mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" name="status" id="status">
-                                <option value="in-progress">In Progress</option>
+                                <option value="ongoing">Ongoing</option>
                                 <option value="completed">Completed</option>
                             </select>
                         </div>

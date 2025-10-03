@@ -108,9 +108,11 @@ class ProjectController extends Controller
         return view('admin.project.edit', compact('project'));
     }
 
-    public function update(ProjectRequest $request, Project $project): RedirectResponse
+    public function update(ProjectRequest $request, int $id): RedirectResponse
     {
         try {
+            $project = Project::findOrFail($id);
+            
             $validated = $request->validated();
 
             $imageFields = [
